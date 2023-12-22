@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>مدل RFM</title>
+    <link rel="stylesheet" href="assets/css/bootstrap.rtl.min.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body class="min-vh-100 d-flex flex-column justify-content-between bg-body-tertiary">
+
+<header class="border-bottom border-2 pb-1 pt-3 text-center">
+    <div class="container">
+        <h1 class="h2">
+            پیاده‌سازی مدل RFM
+        </h1>
+        <p>
+            <a href="./index.html">صفحه اصلی</a>
+            |
+            <a href="./create-RFM.html">ساخت RFM</a>
+            |
+            <a href="./process-RFM.html">پردازش RFM</a>
+        </p>
+    </div>
+</header>
+
+<main class="flex-grow-1 d-flex">
+    <div class="container my-4 d-flex flex-column justify-content-between">
+        <div>
+
+            <div class="mb-3">
+
+                <div>
+                    <label for="excelFile" class="form-label">فایل Excel مشتریان</label>
+                    <input class="form-control" type="file" id="excelFile">
+                </div>
+
+            </div>
+
+            <div id="afterSelectFile" style="display: none;" class="row g-3 align-items-end mb-3">
+
+                <div class="col-12 col-sm-6 col-md-4 col-xxl-2">
+                    <label for="recencySelect" class="form-label">ستون Recency</label>
+                    <select id="recencySelect" class="form-select">
+                    </select>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4 col-xxl-2">
+                    <label for="frequencySelect" class="form-label">ستون Frequency</label>
+                    <select id="frequencySelect" class="form-select">
+                    </select>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4 col-xxl-2">
+                    <label for="monetarySelect" class="form-label">ستون Monetary</label>
+                    <select id="monetarySelect" class="form-select">
+                    </select>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4 col-xxl-2">
+                    <label for="valuableSelect" class="form-label">ستون با ارزش‌تر</label>
+                    <select id="valuableSelect" class="form-select">
+                    </select>
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4 col-xxl-2">
+                    <label for="sectionCount" class="form-label">تعداد بخش</label>
+                    <input class="form-control" type="number" id="sectionCount" value="3">
+                </div>
+
+                <div class="col-12 col-sm-6 col-md-4 col-xxl-2 text-center">
+                    <button id="btnProcess" type="button" class="btn btn-primary w-100">پردازش</button>
+                </div>
+
+            </div>
+
+            <div class="mb-3 text-center w-100">
+                <a class="btn btn-success btn-lg" style="display: none;" href=""
+                   download="RFM-sorted.xlsx"
+                   id="downloadExcel">دانلود فایل پردازش شده</a>
+            </div>
+
+        </div>
+
+        <div class="alert alert-light mb-3" role="alert">
+            <h4 class="alert-heading">نکات مهم</h4>
+            <ul>
+                <li>
+                    فرمت فایل Excel حتما باید xlst باشد.
+                    <a class="btn-link" href="https://alimanian.github.io/RFM/assets/sample.xlsx">(فایل نمونه)</a>
+                </li>
+                <li>
+                    در صورتی که فایل Excel دارای چند Sheet است، آن را به فایلی با یک Sheet منقل کنید.
+                </li>
+                <li>
+                    محتوای فایل Excel با این پیش‌فرض در نظر گرفته شده است که سطر اول فایل شامل عنوان ستون‌ها است.
+                </li>
+                <li>
+                    مرتب‌سازی نهایی مشتریان ابتدا بر اساس امتیاز ستون با‌ارزش انتخابی توسط شما و سپس سایر ستون‌ها با اولویت
+                    <span class="fw-bolder">R</span>
+                    <span class="fw-semibold">F</span>
+                    <span>M</span>
+                    انجام می‌شود.
+                </li>
+                <li>
+                    در صورتی که فایل شما شامل تراگنش‌های مشتری است ابتدا از
+                    <a href="./create-RFM.html">این صفحه</a>
+                    برای ایجاد RFM استفاده کنید و سپس به این همین صفحه برگردید.
+                </li>
+            </ul>
+            <hr>
+            <ul class="mb-0">
+                <li>
+                    <span class="fw-bold">
+                        تعداد بخش:
+                    </span>
+                    می‌خواهید مشتریان خود را در هر پارامتر به چند بخش تقسیم کنید.
+                </li>
+                <li>
+                    <span class="fw-bold">
+                        ستون Recency:
+                    </span>
+                    آخرین خرید مشتری چند روز پیش اتفاق افتاده است.
+                </li>
+                <li>
+                    <span class="fw-bold">
+                        ستون Frequency:
+                    </span>
+                    مشتری در یک بازه خاص (ماه، سال و...) چند بار از شما خرید داشته است.
+                </li>
+                <li>
+                    <span class="fw-bold">
+                        ستون Monetary:
+                    </span>
+                    ارزش خرید مشتری (پولی که مجموعاً مشتری به شما پرداخت کرده) چقدر است.
+                </li>
+                <li>
+                    <span class="fw-bold">
+                        ستون با ارزش‌تر:
+                    </span>
+                    در کسب‌وکار شما کدام یک از پارامترهای Recency، Frequency یا Monetary باارزش‌تر است.
+                </li>
+            </ul>
+        </div>
+    </div>
+</main>
+
+<footer class="border-top border-2 py-3">
+    <div class="container text-center d-flex justify-content-between">
+        <div>
+            <a href="https://github.com/alimanian/RFM">سورس کد</a>
+        </div>
+        <div>
+            توسعه داده شده توسط
+            <a href="https://github.com/alimanian">علی مانیان</a>
+        </div>
+    </div>
+</footer>
+
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/xlsx.full.min.js"></script>
+<script>
+    const state = 'process';
+</script>
+<script src="assets/js/script.js"></script>
+
+</body>
+</html>
